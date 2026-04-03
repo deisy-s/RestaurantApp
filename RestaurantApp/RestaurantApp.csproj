@@ -79,7 +79,7 @@
 	  <MauiXaml Update="View\AdminSide\EditMenu.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="View\MenuDetails.xaml">
+	  <MauiXaml Update="View\FullMenu\MenuDetails.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="View\LoginPage.xaml">
@@ -94,13 +94,10 @@
 	  <MauiXaml Update="View\AdminSide\OrderInfo.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="View\ClientSide\Orders.xaml">
+	  <MauiXaml Update="View\FullMenu\Orders.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="View\AdminSide\SalesReport.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="View\AdminSide\Clients.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="View\AdminSide\AddMenu.xaml">
@@ -109,13 +106,9 @@
 	  <MauiXaml Update="View\FlyoutMenu\FlyoutMenuPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="View\FullMenu.xaml">
+	  <MauiXaml Update="View\FullMenu\FullMenu.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Converters\" />
 	</ItemGroup>
 
 </Project>
