@@ -4,7 +4,6 @@ namespace RestaurantApp;
 
 public partial class History : ContentPage
 {
-    // TODO : Check if order has been completed, if so, disable cancel button
     List<OrderData> orders = new List<OrderData>();
     List<FullOrder> fullOrders = new List<FullOrder>();
 
@@ -23,6 +22,8 @@ public partial class History : ContentPage
     {
         try
         {
+            fullOrders.Clear();
+            cvOrders.ItemsSource = null;
             UserController userController = new UserController();
 
             orders = await userController.getOrders(AppSession.CurrentUser);
@@ -61,16 +62,10 @@ public partial class History : ContentPage
             if (selectedItem != null && selectedItem.order.status != "Cancelado")
             {
                 GlobalController globalController = new GlobalController();
-                OrderData orderData = new OrderData()
-                {
-                    id = selectedItem.order.id,
-                    userid = selectedItem.order.userid,
-                    date = selectedItem.order.date,
-                    eatlocation = selectedItem.order.eatlocation,
-                    totalprice = selectedItem.order.totalprice,
-                    status = "Cancelado"
-                };
-                if (await globalController.updateStatus(orderData))
+                var orderToUpdate = selectedItem.order;
+                orderToUpdate.status = "Cancelado";
+
+                if (await globalController.updateStatus(orderToUpdate))
                 {
                     await DisplayAlertAsync("Éxito", "Pedido cancelado correctamente", "OK");
                     await LoadUserOrders();

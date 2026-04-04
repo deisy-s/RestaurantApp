@@ -116,7 +116,7 @@ public partial class FullMenu : ContentPage
                     {
                         menuID = selectedItem.id,
                         name = selectedItem.Name,
-                        comments = "",
+                        comments = null,
                         price = selectedItem.Price,
                         imageUrl = selectedItem.ImageUrl,
                         quantity = 1

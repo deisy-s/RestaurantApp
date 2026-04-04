@@ -8,6 +8,7 @@ namespace RestaurantApp
     {
         public OrderData order { get; set; }
         public List<OrderDetailsData> details { get; set; }
-        public bool IsNotCancelled => order.status != "Cancelado";
+        public bool IsNotCancelled => order.status != "Cancelado" && order.status != "Finalizado";
+        public int GridHeight => (details.Count * 80)+50;
     }
 }

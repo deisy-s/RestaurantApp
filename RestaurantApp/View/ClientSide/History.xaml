@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
              xmlns:converters="clr-namespace:RestaurantApp.Converters"
              xmlns:local="clr-namespace:RestaurantApp"
              x:Class="RestaurantApp.History"
@@ -22,12 +23,7 @@
 
                         <VerticalStackLayout Spacing="15">
                             <Grid ColumnDefinitions="*, Auto">
-                                <VerticalStackLayout>
-                                    <Label Text="{Binding order.date}" TextColor="#E5E2E1" FontFamily="ZalandoSans" FontSize="12" Opacity="0.8"></Label>
-
-                                    <Label Text="Orden realizada" Margin="0,10,0,0" TextColor="#E5E2E1" FontFamily="ZalandoSans" FontSize="20" FontAttributes="Bold"/>
-                                </VerticalStackLayout>
-                                
+                                <Label Text="{Binding order.date}" Grid.Column="0" TextColor="#E5E2E1" FontFamily="ZalandoSans" FontSize="12" Opacity="0.8" VerticalOptions="Center"></Label>
                                 <Border Grid.Column="1" Padding="10, 5" BackgroundColor="#2A2A2A" Stroke="#2A2A2A" VerticalOptions="Start">
                                     <Border.StrokeShape>
                                         <RoundRectangle CornerRadius="28" />
@@ -36,19 +32,36 @@
                                 </Border>
                             </Grid>
 
-                            <VerticalStackLayout BindableLayout.ItemsSource="{Binding details}" Spacing="2" Margin="0,15,0,0">
-                                <BindableLayout.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid ColumnDefinitions="*, Auto">
-                                            <VerticalStackLayout Grid.Column="0">
-                                                <Label Text="{Binding name}" TextColor="#E5E2E1" FontSize="13"/>
-                                                <Label Text="{Binding comments}" LineBreakMode="WordWrap" TextColor="#74A173" FontSize="12" IsVisible="{Binding comments, Converter={StaticResource StringToBoolConverter}}"/>
-                                            </VerticalStackLayout>
-                                            <Label Grid.Column="1" Text="{Binding quantity, StringFormat='x{0}'}" TextColor="#74A173" FontSize="13" FontAttributes="Bold"/>
-                                        </Grid>
-                                    </DataTemplate>
-                                </BindableLayout.ItemTemplate>
-                            </VerticalStackLayout>
+                            <syncfusion:SfDataGrid x:Name="orderGrid" HeightRequest="{Binding GridHeight}" ItemsSource="{Binding details}" AutoGenerateColumnsMode="None" ColumnWidthMode="Fill" HeaderRowHeight="50" RowHeight="80" SelectionMode="None" BackgroundColor="Transparent" HorizontalScrollBarVisibility="Never" VerticalScrollBarVisibility="Always">
+                                <syncfusion:SfDataGrid.DefaultStyle>
+                                    <syncfusion:DataGridStyle HeaderRowBackground="#1C1B1B" HeaderRowTextColor="#74A173" RowTextColor="#E5E2E1" RowFontSize="14" HeaderRowFontSize="12" HeaderRowFontAttributes="Bold"/>
+                                </syncfusion:SfDataGrid.DefaultStyle>
+
+                                <syncfusion:SfDataGrid.Columns>
+                                    <syncfusion:DataGridTemplateColumn HeaderText="ITEM" HeaderTextAlignment="Start">
+                                        <syncfusion:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid ColumnDefinitions="Auto, *" Padding="5,0,0,0" ColumnSpacing="10" VerticalOptions="Center">
+                                                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Fill" Padding="0,5" Spacing="2">
+                                                        <Label Text="{Binding name}" LineBreakMode="WordWrap" MaxLines="5" HorizontalOptions="Fill" FontAttributes="Bold" TextColor="#E5E2E1" FontSize="15"/>
+                                                        <Label Text="{Binding comments}" LineBreakMode="WordWrap" TextColor="#74A173" FontSize="11" IsVisible="{Binding comments, Converter={StaticResource StringToBoolConverter}}"/>
+                                                    </VerticalStackLayout>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </syncfusion:DataGridTemplateColumn.CellTemplate>
+                                    </syncfusion:DataGridTemplateColumn>
+
+                                    <syncfusion:DataGridTemplateColumn HeaderText="#" HeaderTextAlignment="Center">
+                                        <syncfusion:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="12">
+                                                    <Label Text="{Binding quantity}" TextColor="#E5E2E1" VerticalOptions="Center" FontSize="16"/>
+                                                </HorizontalStackLayout>
+                                            </DataTemplate>
+                                        </syncfusion:DataGridTemplateColumn.CellTemplate>
+                                    </syncfusion:DataGridTemplateColumn>
+                                </syncfusion:SfDataGrid.Columns>
+                            </syncfusion:SfDataGrid>
 
                             <Grid ColumnDefinitions="*, Auto">
                                 <VerticalStackLayout>

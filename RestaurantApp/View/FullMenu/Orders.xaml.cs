@@ -9,6 +9,8 @@ public partial class Orders : ContentPage
     public decimal DeliveryFee { get; set; } = 0m;
     public decimal Total => Subtotal + IVA + DeliveryFee;
 
+    public string location { get; set; }
+
     public Orders()
 	{
 		InitializeComponent();
@@ -19,6 +21,7 @@ public partial class Orders : ContentPage
             lblLocation.IsVisible = false;
             btnsLocation.IsVisible = false;
             gdDelivFee.IsVisible = false;
+            location = "Sucursal";
         }
     }
 
@@ -88,6 +91,7 @@ public partial class Orders : ContentPage
         // Modificar color de botón seleccionado
         selectedButton.BackgroundColor = Color.FromArgb("#74A173");
         selectedButton.TextColor = Color.FromArgb("#131313");
+        location = selectedButton.Text;
     }
 
     private void ResetButtonColor()
@@ -104,16 +108,13 @@ public partial class Orders : ContentPage
     {
         try
         {
-            string location = "Sucursal";
-            if (btnDelivery.BackgroundColor == Color.FromArgb("#74A173"))
-                location = "Domicilio";
-            else if(btnPickUp.BackgroundColor == Color.FromArgb("#74A173"))
-                location = "Recoger";
+            string here = location;
 
             if(AppSession.CurrentUser.clientType == "client" && location == "Domicilio")
             {
                 UserController userController = new UserController();
-                if (!userController.checkUserAddress(AppSession.CurrentUser).Result)
+                var result = await userController.checkUserAddress(AppSession.CurrentUser);
+                if (!result)
                 {
                     await DisplayAlertAsync("Error", "No has agregado una dirección, por favor ve a tu perfil y agrega una para poder realizar pedidos a domicilio.", "OK");
                     return;
@@ -126,7 +127,7 @@ public partial class Orders : ContentPage
                 date = DateTime.Now,
                 eatlocation = location,
                 totalprice = (float)Total,
-                status = "Ordered"
+                status = "Ordenado"
             };
 
             List<OrderDetailsData> orderDetailsList = new List<OrderDetailsData>();

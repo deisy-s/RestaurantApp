@@ -1,5 +1,6 @@
 ﻿using Android.Gms.Fido.U2F.Api.Common;
 using Supabase;
+using Supabase.Gotrue;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -45,12 +46,11 @@ namespace RestaurantApp
             {
                 await Connect();
 
-                var response = await _client.From<UserData>().Select(u => new object[] { u.clientAddress }).Where(u => u.id == client.id).Single();
-    
-                if (response.clientAddress == null)
-                    return false;
+                var response = await _client.From<UserData>().Select("address").Where(u => u.id == client.id).Get();
 
-                return true;
+                var address = response.Models.FirstOrDefault();
+
+                return address != null && !string.IsNullOrWhiteSpace(address.clientAddress);
             }
             catch (Exception ex)
             {
@@ -72,7 +72,7 @@ namespace RestaurantApp
                 if (clientID == null)
                     return null;
 
-                var result = await _client.From<OrderData>().Where(x => x.userid == clientID.id).Get();
+                var result = await _client.From<OrderData>().Where(x => x.userid == clientID.id).Order(x => x.id, Ordering.Descending).Get();
 
                 return result.Models;
 

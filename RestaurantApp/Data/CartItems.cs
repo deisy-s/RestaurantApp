@@ -10,7 +10,7 @@ namespace RestaurantApp
     {
         public int menuID {  get; set; }
         public string name { get; set; }
-        public string comments { get; set; }
+        public string? comments { get; set; }
         public float price { get; set; }
         public string imageUrl { get; set; }
         private int _quantity;
