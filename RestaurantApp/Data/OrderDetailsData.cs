@@ -23,5 +23,8 @@ namespace RestaurantApp
 
         [Column("quantity")]
         public int quantity { get; set; }
+
+        [Column("name")]
+        public string name { get; set; }
     }
 }

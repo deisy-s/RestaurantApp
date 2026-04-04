@@ -125,5 +125,22 @@ namespace RestaurantApp
                 return false;
             }
         }
+
+        public async Task<bool> UpdateStatus(OrderData order)
+        {
+            try
+            {
+                await Connect();
+
+                await _client.From<OrderData>().Where(x => x.id == order.id).Update(order);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                sError = ex.Message;
+                return false;
+            }
+        }
     }
 }

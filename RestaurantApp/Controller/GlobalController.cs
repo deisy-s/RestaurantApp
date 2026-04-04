@@ -24,5 +24,10 @@ namespace RestaurantApp.Controller
         {
             return await connectSupabase.SaveOrder(order, orderData);
         }
+
+        public async Task<bool> updateStatus(OrderData order)
+        {
+            return await connectSupabase.UpdateStatus(order);
+        }
     }
 }

@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Android.Gms.Fido.U2F.Api.Common;
+using Supabase;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using Android.Gms.Fido.U2F.Api.Common;
-using Supabase;
+using static Supabase.Postgrest.Constants;
 
 namespace RestaurantApp
 {
@@ -55,6 +56,48 @@ namespace RestaurantApp
             {
                 sError = ex.Message;
                 return false;
+            }
+        }
+
+        public async Task<List<OrderData>> GetOrders(UserData client)
+        {
+            try
+            {
+                await Connect();
+
+                var response = await _client.From<UserData>().Where(u => u.clientEmail == client.clientEmail).Get();
+
+                var clientID = response.Models.FirstOrDefault();
+
+                if (clientID == null)
+                    return null;
+
+                var result = await _client.From<OrderData>().Where(x => x.userid == clientID.id).Get();
+
+                return result.Models;
+
+            }
+            catch (Exception ex)
+            {
+                sError = ex.Message;
+                return null;
+            }
+        }
+
+        public async Task<List<OrderDetailsData>> GetOrderDetails(OrderData order)
+        {
+            try
+            {
+                await Connect();
+
+                var result = await _client.From<OrderDetailsData>().Where(x => x.orderid == order.id).Get();
+                return result.Models;
+
+            }
+            catch (Exception ex)
+            {
+                sError = ex.Message;
+                return null;
             }
         }
     }

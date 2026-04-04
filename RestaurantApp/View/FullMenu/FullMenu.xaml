@@ -41,7 +41,7 @@
                 <!-- Templete para agregar cada artículo del menú -->
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Border BackgroundColor="#1C1B1B" Stroke="#1C1B1B" Padding="10" Margin="0,0,0,10">
+                        <Border BackgroundColor="#1C1B1B" Stroke="#1C1B1B" Padding="15" Margin="0,0,0,10">
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="28" />
                             </Border.StrokeShape>
@@ -65,7 +65,7 @@
                                                 </DataTrigger>
                                             </Label.Triggers>
                                         </Label>
-                                        <Label Text="{Binding Availability}" x:Name="lblAvailable" FontFamily="ZalandoSans" TextColor="#B04B4E" FontSize="18" FontAttributes="Bold" VerticalOptions="Start" Margin="10, 5, 0, 0" IsVisible="False">
+                                        <Label Text="{Binding Availability}" x:Name="lblAvailable" FontFamily="ZalandoSans" TextColor="#B04B4E" FontSize="14" VerticalOptions="Center" FontAttributes="Bold" Margin="10, 5, 0, 0" IsVisible="False">
                                             <Label.Triggers>
                                                 <DataTrigger TargetType="Label" Binding="{Binding Availability}" Value="No Disponible">
                                                     <Setter Property="IsVisible" Value="True" />

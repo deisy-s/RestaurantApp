@@ -50,7 +50,7 @@
                                 </DataTrigger>
                             </Label.Triggers>
                         </Label>
-                        <Label Text="{Binding Availability}" x:Name="lblAvailable" FontFamily="ZalandoSans" TextColor="#B04B4E" FontSize="24" FontAttributes="Bold" Margin="10, 0, 0, 0" IsVisible="False">
+                        <Label Text="{Binding Availability}" x:Name="lblAvailable" FontFamily="ZalandoSans" TextColor="#B04B4E" FontSize="18" VerticalOptions="Center" FontAttributes="Bold" Margin="10, 0, 0, 0" IsVisible="False">
                             <Label.Triggers>
                                 <DataTrigger TargetType="Label" Binding="{Binding Availability}" Value="No Disponible">
                                     <Setter Property="IsVisible" Value="True" />

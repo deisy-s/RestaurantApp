@@ -24,5 +24,8 @@ namespace RestaurantApp
 
         [Column("totalprice")]
         public float totalprice { get; set; }
+
+        [Column("status")]
+        public string status { get; set; }
     }
 }

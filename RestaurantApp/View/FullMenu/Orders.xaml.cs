@@ -125,7 +125,8 @@ public partial class Orders : ContentPage
                 userid = AppSession.CurrentUser.id,
                 date = DateTime.Now,
                 eatlocation = location,
-                totalprice = (float)Total
+                totalprice = (float)Total,
+                status = "Ordered"
             };
 
             List<OrderDetailsData> orderDetailsList = new List<OrderDetailsData>();
@@ -135,7 +136,8 @@ public partial class Orders : ContentPage
                 {
                     menuid = item.menuID,
                     quantity = item.quantity,
-                    comments = item.comments
+                    comments = item.comments,
+                    name = item.name
                 };
                 orderDetailsList.Add(orderDetails);
             }
