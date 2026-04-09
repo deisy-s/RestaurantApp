@@ -26,5 +26,8 @@ namespace RestaurantApp
 
         [Column("name")]
         public string name { get; set; }
+
+        [Column("price")]
+        public float price { get; set; }
     }
 }

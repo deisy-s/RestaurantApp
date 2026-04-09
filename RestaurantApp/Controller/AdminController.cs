@@ -21,5 +21,35 @@ namespace RestaurantApp
         {
             return await connectAdmin.UpdateMenu(menu, ogName);
         }
+
+        public async Task<List<OrderData>> getOrders(DateTime dtToday)
+        {
+            return await connectAdmin.GetOrders(dtToday);
+        }
+
+        public async Task<List<OrderData>> getOrdersDay(DateTime dtToday)
+        {
+            return await connectAdmin.GetOrdersDay(dtToday);
+        }
+
+        public async Task<List<OrderData>> getOrdersWeek(DateTime dtToday)
+        {
+            return await connectAdmin.GetOrdersWeek(dtToday);
+        }
+
+        public async Task<List<OrderData>> getOrdersMonth(DateTime dtToday)
+        {
+            return await connectAdmin.GetOrdersMonth(dtToday);
+        }
+
+        public async Task<List<OrderDetailsData>> getOrderDetails(OrderData order)
+        {
+            return await connectAdmin.GetOrderDetails(order);
+        }
+
+        public async Task<UserData> getClientDetails(OrderData order)
+        {
+            return await connectAdmin.GetClientDetails(order);
+        }
     }
 }

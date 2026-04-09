@@ -61,7 +61,11 @@
                 <syncfusion:DataGridTemplateColumn Width="50">
                     <syncfusion:DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <ImageButton x:Name="btnDel" Source="trash.png" BackgroundColor="Transparent" MaximumWidthRequest="23" MaximumHeightRequest="23" HorizontalOptions="Center" Clicked="btnDel_Clicked" CommandParameter="{Binding .}"/>
+                            <Image x:Name="btnDel" Source="trash.png" BackgroundColor="Transparent" WidthRequest="20" HeightRequest="20">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="btnDel_Clicked"></TapGestureRecognizer>
+                                </Image.GestureRecognizers>
+                            </Image>
                         </DataTemplate>
                     </syncfusion:DataGridTemplateColumn.CellTemplate>
                 </syncfusion:DataGridTemplateColumn>

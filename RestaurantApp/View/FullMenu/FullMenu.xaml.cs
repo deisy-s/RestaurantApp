@@ -101,7 +101,7 @@ public partial class FullMenu : ContentPage
 
             if (selectedItem != null && selectedItem.Availability == "Disponible")
             {
-                string currentComment = "";
+                string currentComment = null;
                 var existingItem = AppSession.cartItems.FirstOrDefault(x => x.menuID == selectedItem.id && x.comments == currentComment);
 
                 if (existingItem != null)

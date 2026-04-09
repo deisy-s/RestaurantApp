@@ -22,6 +22,15 @@ namespace RestaurantApp
         [Column("eatlocation")]
         public string eatlocation { get; set; }
 
+        [Column("subtotal")]
+        public float subtotal { get; set; }
+
+        [Column("deliveryfee")]
+        public float deliveryfee { get; set; }
+
+        [Column("iva")]
+        public float iva { get; set; }
+
         [Column("totalprice")]
         public float totalprice { get; set; }
 

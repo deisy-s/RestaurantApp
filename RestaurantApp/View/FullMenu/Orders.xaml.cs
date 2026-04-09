@@ -42,7 +42,10 @@ public partial class Orders : ContentPage
     {
         try
         {
-            var item = (CartItems)((ImageButton)sender).CommandParameter;
+            var image = (Image)sender;
+
+            var item = (CartItems)image.BindingContext;
+
             AppSession.cartItems.Remove(item);
             UpdateTotal();
 
@@ -126,6 +129,9 @@ public partial class Orders : ContentPage
                 userid = AppSession.CurrentUser.id,
                 date = DateTime.Now,
                 eatlocation = location,
+                subtotal = (float)Subtotal,
+                deliveryfee = (float)DeliveryFee,
+                iva = (float)IVA,
                 totalprice = (float)Total,
                 status = "Ordenado"
             };
@@ -138,7 +144,8 @@ public partial class Orders : ContentPage
                     menuid = item.menuID,
                     quantity = item.quantity,
                     comments = item.comments,
-                    name = item.name
+                    name = item.name,
+                    price = item.price*item.quantity
                 };
                 orderDetailsList.Add(orderDetails);
             }

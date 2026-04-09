@@ -53,6 +53,7 @@ public partial class EditMenu : ContentPage
 
     private void pkType_SelectedIndexChanged(object sender, EventArgs e)
     {
+        pkType.TextColor = Color.FromArgb("#E5E2E1");
         pkChange(); 
     }
 

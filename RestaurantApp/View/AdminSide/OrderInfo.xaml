@@ -1,12 +1,107 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
              x:Class="RestaurantApp.OrderInfo"
-             Title="Pedidos">
-    <VerticalStackLayout>
-        <Label 
-            Text="order info"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="Pedidos"
+             BackgroundColor="#131313">
+
+    <Grid RowDefinitions="Auto, *, Auto">
+        <!-- Header -->
+        <VerticalStackLayout VerticalOptions="Center" Grid.Row="0" Padding="20" Spacing="5">
+            <HorizontalStackLayout HorizontalOptions="Center">
+                <Label Text="Pedidos" TextColor="#E5E2E1" FontSize="28" FontFamily="ZalandoSans" FontAttributes="Bold"/>
+            </HorizontalStackLayout>
+            <HorizontalStackLayout>
+                <Label Text="Mostrar los pedidos:" VerticalOptions="Center" TextColor="#E5E2E1" FontSize="15" Margin="0,0,20,0" FontFamily="ZalandoSans"/>
+                <Border Padding="10, 1" BackgroundColor="#2A2A2A" Stroke="#1C1B1B">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20" />
+                    </Border.StrokeShape>
+
+                    <Picker x:Name="pkOrders" Title="En proceso" TitleColor="#E5E2E1" TextColor="Black" BackgroundColor="Transparent" FontFamily="ZalandoSans" SelectedIndexChanged="pkOrders_SelectedIndexChanged">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>En proceso</x:String>
+                                <x:String>Finalizados</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                </Border>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+
+        <!-- CV de cada pedido -->
+        <CollectionView x:Name="cvOrders" Grid.Row="1">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border Padding="20" Margin="15,0,15,10" BackgroundColor="#1C1B1B" Stroke="#1C1B1B">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="28" />
+                        </Border.StrokeShape>
+
+                        <!-- Fecha y estado de pedido -->
+                        <VerticalStackLayout Spacing="15">
+                            <Grid ColumnDefinitions="*, Auto">
+                                <Label Text="{Binding order.date}" Grid.Column="0" TextColor="#E5E2E1" FontFamily="ZalandoSans" FontSize="12" Opacity="0.8" VerticalOptions="Center"></Label>
+                                <Border Grid.Column="1" Padding="10, 5" BackgroundColor="#2A2A2A" Stroke="#2A2A2A" VerticalOptions="Start">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="28" />
+                                    </Border.StrokeShape>
+                                    <Label Text="{Binding order.status}" TextColor="#74A173" FontSize="12" FontAttributes="Bold" FontFamily="ZalandoSans"/>
+                                </Border>
+                            </Grid>
+
+                            <!-- Grid (Syncfusion) de detalles del pedido -->
+                            <syncfusion:SfDataGrid x:Name="orderGrid" HeightRequest="{Binding GridHeight}" ItemsSource="{Binding details}" AutoGenerateColumnsMode="None" ColumnWidthMode="Fill" HeaderRowHeight="50" RowHeight="80" SelectionMode="None" BackgroundColor="Transparent" HorizontalScrollBarVisibility="Never" VerticalScrollBarVisibility="Always">
+                                <syncfusion:SfDataGrid.DefaultStyle>
+                                    <syncfusion:DataGridStyle HeaderRowBackground="#1C1B1B" HeaderRowTextColor="#74A173" RowTextColor="#E5E2E1" RowFontSize="14" HeaderRowFontSize="12" HeaderRowFontAttributes="Bold"/>
+                                </syncfusion:SfDataGrid.DefaultStyle>
+
+                                <syncfusion:SfDataGrid.Columns>
+                                    <syncfusion:DataGridTemplateColumn HeaderText="ITEM" HeaderTextAlignment="Start">
+                                        <syncfusion:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid ColumnDefinitions="Auto, *" Padding="5,0,0,0" ColumnSpacing="10" VerticalOptions="Center">
+                                                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Fill" Padding="0,5" Spacing="2">
+                                                        <Label Text="{Binding name}" LineBreakMode="WordWrap" MaxLines="5" HorizontalOptions="Fill" FontAttributes="Bold" TextColor="#E5E2E1" FontSize="15" FontFamily="ZalandoSans"/>
+                                                        <Label Text="{Binding comments}" LineBreakMode="WordWrap" TextColor="#74A173" FontSize="11" FontFamily="ZalandoSans" IsVisible="{Binding comments, Converter={StaticResource StringToBoolConverter}}"/>
+                                                    </VerticalStackLayout>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </syncfusion:DataGridTemplateColumn.CellTemplate>
+                                    </syncfusion:DataGridTemplateColumn>
+
+                                    <syncfusion:DataGridTemplateColumn HeaderText="#" HeaderTextAlignment="Center">
+                                        <syncfusion:DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="12">
+                                                    <Label Text="{Binding quantity}" TextColor="#E5E2E1" FontFamily="ZalandoSans" VerticalOptions="Center" FontSize="16"/>
+                                                </HorizontalStackLayout>
+                                            </DataTemplate>
+                                        </syncfusion:DataGridTemplateColumn.CellTemplate>
+                                    </syncfusion:DataGridTemplateColumn>
+                                </syncfusion:SfDataGrid.Columns>
+                            </syncfusion:SfDataGrid>
+
+                            <!-- Tipo de pedido y total -->
+                            <Grid ColumnDefinitions="*, Auto">
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding order.eatlocation}" TextColor="#74A173" Opacity="0.8" FontFamily="ZalandoSans" FontAttributes="Bold" FontSize="20"/>
+                                    <Label Text="{Binding users.clientAddress}" IsVisible="{Binding IsDelivery}" TextColor="#E5E2E1" FontFamily="ZalandoSans" Opacity="0.8" FontSize="15"/>
+                                    <Label Text="{Binding order.totalprice, StringFormat='Total: {0:C2}'}" TextColor="#E5E2E1" FontFamily="ZalandoSans" Opacity="0.8" FontSize="15"/>
+                                </VerticalStackLayout>
+                            </Grid>
+
+                            <!-- Botones para actualizar el estado del pedido -->
+                            <Label Text="Marcar como:" IsVisible="{Binding IsFinalized}" TextColor="#E5E2E1" FontFamily="ZalandoSans" Opacity="0.8" FontSize="15"/>
+                            <Button x:Name="btnInProcess" Text="EN PREPARACIÓN" IsVisible="{Binding IsInProcess}" BackgroundColor="#74A173" FontFamily="ZalandoSans" FontAttributes="Bold" TextColor="#131313" CornerRadius="28" Clicked="btnInProcess_Clicked"/>
+                            <Button x:Name="btnSent" Text="ENVIADO" IsVisible="{Binding IsSent}" BackgroundColor="#74A173" FontFamily="ZalandoSans" FontAttributes="Bold" TextColor="#131313" CornerRadius="28" Clicked="btnSent_Clicked"/>
+                            <Button x:Name="btnDelivered" Text="ENTREGADO" IsVisible="{Binding IsDelivered}" BackgroundColor="#74A173" FontFamily="ZalandoSans" FontAttributes="Bold" TextColor="#131313" CornerRadius="28" Clicked="btnDelivered_Clicked"/>
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
 </ContentPage>

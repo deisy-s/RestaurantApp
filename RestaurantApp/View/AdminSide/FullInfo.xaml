@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
+             xmlns:converters="clr-namespace:RestaurantApp.Converters"
+             x:Class="RestaurantApp.FullInfo"
+             Title="Información de Pedido"
+             BackgroundColor="#131313">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="30">
+            <!-- Mostrar cliente, [ubicación de] entrega y fecha -->
+            <VerticalStackLayout Margin="0, 10">
+                <Label x:Name="lblName" TextColor="#74A173" FontSize="30" FontAttributes="Bold" FontFamily="ZalandoSans" CharacterSpacing="1"/>
+                <Label x:Name="lblLocation" TextColor="#E5E2E1" FontSize="22" FontAttributes="Bold" FontFamily="ZalandoSans" CharacterSpacing="1"/>
+                <Label x:Name="lblDate" TextColor="#E5E2E1" FontSize="14" FontAttributes="Bold" Opacity="0.8" FontFamily="ZalandoSans" CharacterSpacing="1"/>
+            </VerticalStackLayout>
+
+            <!-- Información de pedido -->
+            <Border BackgroundColor="#1C1B1B" Stroke="#1C1B1B" Padding="20">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="28" />
+                </Border.StrokeShape>
+
+                <VerticalStackLayout>
+                    <syncfusion:SfDataGrid x:Name="gdOrderInfo" AutoGenerateColumnsMode="None" ColumnWidthMode="FitByCell" HeaderRowHeight="50" RowHeight="80" SelectionMode="None" BackgroundColor="Transparent" HorizontalScrollBarVisibility="Never" VerticalScrollBarVisibility="Always">
+                        <syncfusion:SfDataGrid.DefaultStyle>
+                            <syncfusion:DataGridStyle HeaderRowBackground="#1C1B1B" HeaderRowTextColor="#74A173" RowTextColor="#E5E2E1" HeaderRowFontSize="12" HeaderRowFontAttributes="Bold"/>
+                        </syncfusion:SfDataGrid.DefaultStyle>
+
+                        <syncfusion:SfDataGrid.Columns>
+                            <syncfusion:DataGridTemplateColumn HeaderText="ITEM" Width="120" HeaderTextAlignment="Center">
+                                <syncfusion:DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <VerticalStackLayout VerticalOptions="Center">
+                                            <Label Text="{Binding name}" TextColor="#E5E2E1" LineBreakMode="WordWrap" FontFamily="ZalandoSans" VerticalOptions="Center" FontSize="12"/>
+                                            <Label Text="{Binding comments}" TextColor="#74A173" LineBreakMode="WordWrap" FontFamily="ZalandoSans" VerticalOptions="Center" FontSize="10" IsVisible="{Binding comments, Converter={StaticResource StringToBoolConverter}}"/>
+                                        </VerticalStackLayout>
+                                    </DataTemplate>
+                                </syncfusion:DataGridTemplateColumn.CellTemplate>
+                            </syncfusion:DataGridTemplateColumn>
+
+                            <syncfusion:DataGridTemplateColumn HeaderText="#" Width="100" HeaderTextAlignment="Center">
+                                <syncfusion:DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Label Text="{Binding quantity}" LineBreakMode="WordWrap" HorizontalOptions="Center" TextColor="#E5E2E1" FontFamily="ZalandoSans" VerticalOptions="Center" FontSize="12"/>
+                                    </DataTemplate>
+                                </syncfusion:DataGridTemplateColumn.CellTemplate>
+                            </syncfusion:DataGridTemplateColumn>
+
+                            <syncfusion:DataGridTemplateColumn HeaderText="$" Width="100" HeaderTextAlignment="Center">
+                                <syncfusion:DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Label Text="{Binding price, StringFormat='{0:C2}'}" LineBreakMode="WordWrap" HorizontalOptions="Center" TextColor="#E5E2E1" FontFamily="ZalandoSans" VerticalOptions="Center" FontSize="12"/>
+                                    </DataTemplate>
+                                </syncfusion:DataGridTemplateColumn.CellTemplate>
+                            </syncfusion:DataGridTemplateColumn>
+                        </syncfusion:SfDataGrid.Columns>
+                    </syncfusion:SfDataGrid>
+
+                    <Label x:Name="lblTotal" TextColor="#E5E2E1" FontFamily="ZalandoSans" FontSize="22"/>
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

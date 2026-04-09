@@ -62,16 +62,17 @@ public partial class History : ContentPage
             if (selectedItem != null && selectedItem.order.status != "Cancelado")
             {
                 GlobalController globalController = new GlobalController();
-                var orderToUpdate = selectedItem.order;
-                orderToUpdate.status = "Cancelado";
+                string oldStatus = selectedItem.order.status;
+                selectedItem.order.status = "Cancelado";
 
-                if (await globalController.updateStatus(orderToUpdate))
+                if (await globalController.updateStatus(selectedItem.order))
                 {
                     await DisplayAlertAsync("Éxito", "Pedido cancelado correctamente", "OK");
-                    await LoadUserOrders();
+                    selectedItem.RefreshStatus();
                 }
                 else
                 {
+                    selectedItem.order.status = oldStatus;
                     await DisplayAlertAsync("Error", "No pudimos cancelar tu pedido", "OK");
                 }
             }

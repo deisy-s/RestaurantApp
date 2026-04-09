@@ -39,7 +39,7 @@ namespace RestaurantApp
                 // Pestañas para administradores
                 menuItems.Add(new FlyoutPageItem { Title = "Agregar artículos", TargetType = typeof(AddMenu), IconSource = "addmenu.png" });
                 menuItems.Add(new FlyoutPageItem { Title = "Pedidos", TargetType = typeof(OrderInfo), IconSource = "order.png" });
-                menuItems.Add(new FlyoutPageItem { Title = "Reportes de ventas", TargetType = typeof(SalesReport), IconSource = "report.png" });
+                menuItems.Add(new FlyoutPageItem { Title = "Reporte de ventas", TargetType = typeof(SalesReport), IconSource = "report.png" });
             }
             else
             {

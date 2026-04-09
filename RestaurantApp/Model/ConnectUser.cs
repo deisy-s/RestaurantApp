@@ -74,6 +74,12 @@ namespace RestaurantApp
 
                 var result = await _client.From<OrderData>().Where(x => x.userid == clientID.id).Order(x => x.id, Ordering.Descending).Get();
 
+                foreach (var order in result.Models)
+                {
+                    DateTime local = order.date.ToLocalTime();
+                    order.date = local;
+                }
+
                 return result.Models;
 
             }

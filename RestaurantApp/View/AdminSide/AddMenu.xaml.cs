@@ -14,7 +14,8 @@ public partial class AddMenu : ContentPage
 
     private void pkType_SelectedIndexChanged(object sender, EventArgs e)
     {
-		if(pkType.SelectedIndex == 0)
+        pkType.TextColor = Color.FromArgb("#E5E2E1");
+        if (pkType.SelectedIndex == 0)
 		{
 			charsSushi.IsVisible = true;
 			charsDrink.IsVisible = false;
