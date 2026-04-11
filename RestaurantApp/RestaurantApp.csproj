@@ -93,6 +93,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="View\ClientSide\HistoryInfo.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="View\AdminSide\OrderInfoDetails.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

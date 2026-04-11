@@ -17,7 +17,7 @@ public partial class History : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        cvOrders.ItemsSource = observableOrders;
+        orderGrid.ItemsSource = observableOrders;
         await LoadUserOrders();
     }
 
@@ -53,44 +53,25 @@ public partial class History : ContentPage
         }
     }
 
-    // Cancel an order
-    private async void btnCancel_Clicked(object sender, EventArgs e)
+    // Load the order details when the image is clicked
+    private async void imgLink_Clicked(object sender, EventArgs e)
     {
         try
         {
-            // Get the button that was clicked
-            var button = (Button)sender;
+            var image = (Image)sender;
 
-            // Obtain the order associated with the button using the BindingContext
-            var selectedItem = (FullOrder)button.BindingContext;
+            var item = (FullOrder)image.BindingContext;
 
-            if (selectedItem != null && selectedItem.order.status != "Cancelado")
+            HistoryInfo fullInfo = new HistoryInfo(item);
+
+            if (Application.Current.MainPage is FlyoutPage flyout)
             {
-                GlobalController globalController = new GlobalController();
-                string oldStatus = selectedItem.order.status;
-                selectedItem.order.status = "Cancelado";
-
-                if (await globalController.updateStatus(selectedItem.order)) // Update the order status in the database
-                {
-                    // Confirm cancellation to the user and refresh the order list
-                    await DisplayAlertAsync("Éxito", "Pedido cancelado correctamente", "OK");
-                    selectedItem.RefreshStatus();
-
-                    // Send a notification to the admin
-                    var notify = new NotificationService();
-                    await notify.SendNotification("admin", "Pedido Cancelado", $"El usuario ha cancelado el pedido #{selectedItem.order.id}");
-                }
-                else
-                {
-                    selectedItem.order.status = oldStatus;
-                    await DisplayAlertAsync("Error", "No pudimos cancelar tu pedido", "OK");
-                }
+                await flyout.Detail.Navigation.PushAsync(fullInfo);
             }
-
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            await DisplayAlertAsync("Error", "No se pudo abrir la pantalla", "OK");
         }
     }
 }

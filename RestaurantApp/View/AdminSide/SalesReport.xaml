@@ -72,7 +72,7 @@
                     <syncfusion:DataGridTemplateColumn HeaderText="FECHA" Width="100" HeaderTextAlignment="Center">
                         <syncfusion:DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Label Text="{Binding order.date}" TextColor="#E5E2E1" HorizontalOptions="Center" LineBreakMode="WordWrap" FontFamily="ZalandoSans" VerticalOptions="Center" FontSize="12"/>
+                                <Label Text="{Binding order.date, StringFormat='{}{0:MM/dd/yyyy a\\ h:mm tt}'}" TextColor="#E5E2E1" HorizontalOptions="Center" LineBreakMode="WordWrap" FontFamily="ZalandoSans" VerticalOptions="Center" FontSize="12"/>
                             </DataTemplate>
                         </syncfusion:DataGridTemplateColumn.CellTemplate>
                     </syncfusion:DataGridTemplateColumn>

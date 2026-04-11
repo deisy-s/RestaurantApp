@@ -8,79 +8,74 @@
              Title="Mis pedidos"
              BackgroundColor="#131313">
 
-    <Grid RowDefinitions="Auto, *, Auto">
+    <Grid RowDefinitions="Auto, Auto" Padding="10">
         <!-- Header -->
         <VerticalStackLayout HorizontalOptions="Center" Grid.Row="0" Padding="20" Spacing="5">
             <Label Text="Historial de pedidos" TextColor="#E5E2E1" FontSize="28" FontFamily="ZalandoSans" FontAttributes="Bold"/>
         </VerticalStackLayout>
 
-        <!-- CV for each order -->
-        <CollectionView x:Name="cvOrders" Grid.Row="1">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Border Padding="20" Margin="15,0,15,10" BackgroundColor="#1C1B1B" Stroke="#1C1B1B">
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="28" />
-                        </Border.StrokeShape>
+        <!-- Order grid (Syncfusion) -->
+        <Border Grid.Row="1" BackgroundColor="#2A2A2A" HeightRequest="600" Stroke="#1C1B1B">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="20" />
+            </Border.StrokeShape>
 
-                        <!-- Date and status -->
-                        <VerticalStackLayout Spacing="15">
-                            <Grid ColumnDefinitions="*, Auto">
-                                <Label Text="{Binding order.date}" Grid.Column="0" TextColor="#E5E2E1" FontFamily="ZalandoSans" FontSize="12" Opacity="0.8" VerticalOptions="Center"></Label>
-                                <Border Grid.Column="1" Padding="10, 5" BackgroundColor="#2A2A2A" Stroke="#2A2A2A" VerticalOptions="Start">
+            <syncfusion:SfDataGrid x:Name="orderGrid" HeightRequest="600" AutoGenerateColumnsMode="None" ColumnWidthMode="FitByCell"  HeaderRowHeight="50" RowHeight="80" SelectionMode="None" BackgroundColor="Transparent" HorizontalScrollBarVisibility="Always" VerticalScrollBarVisibility="Always">
+                <syncfusion:SfDataGrid.DefaultStyle>
+                    <syncfusion:DataGridStyle HeaderRowBackground="#1C1B1B" HeaderRowTextColor="#74A173" RowTextColor="#E5E2E1" HeaderRowFontSize="12" HeaderRowFontAttributes="Bold"/>
+                </syncfusion:SfDataGrid.DefaultStyle>
+
+                <syncfusion:SfDataGrid.Columns>
+                    <syncfusion:DataGridTemplateColumn HeaderText="FECHA" Width="100" HeaderTextAlignment="Center">
+                        <syncfusion:DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Text="{Binding order.date, StringFormat='{}{0:MM/dd/yyyy a\\ h:mm tt}'}" TextColor="#E5E2E1" HorizontalOptions="Center" LineBreakMode="WordWrap" FontFamily="ZalandoSans" VerticalOptions="Center" FontSize="12"/>
+                            </DataTemplate>
+                        </syncfusion:DataGridTemplateColumn.CellTemplate>
+                    </syncfusion:DataGridTemplateColumn>
+                    
+                    <syncfusion:DataGridTemplateColumn HeaderText="Estado" Width="100" HeaderTextAlignment="Center">
+                        <syncfusion:DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border Padding="10, 5" BackgroundColor="#2A2A2A" Stroke="#2A2A2A" VerticalOptions="Center" HorizontalOptions="Center">
                                     <Border.StrokeShape>
                                         <RoundRectangle CornerRadius="28" />
                                     </Border.StrokeShape>
-                                    <Label Text="{Binding order.status}" TextColor="#74A173" FontSize="12" FontFamily="ZalandoSans" FontAttributes="Bold"/>
+                                    <Label Text="{Binding order.status}" TextColor="#E5E2E1" LineBreakMode="WordWrap" FontSize="12" FontFamily="ZalandoSans" FontAttributes="Bold"/>
                                 </Border>
-                            </Grid>
+                            </DataTemplate>
+                        </syncfusion:DataGridTemplateColumn.CellTemplate>
+                    </syncfusion:DataGridTemplateColumn>
 
-                            <!-- Order details grid (Syncfusion) -->
-                            <syncfusion:SfDataGrid x:Name="orderGrid" HeightRequest="{Binding GridHeight}" ItemsSource="{Binding details}" AutoGenerateColumnsMode="None" ColumnWidthMode="Fill" HeaderRowHeight="50" RowHeight="80" SelectionMode="None" BackgroundColor="Transparent" HorizontalScrollBarVisibility="Never" VerticalScrollBarVisibility="Always">
-                                <syncfusion:SfDataGrid.DefaultStyle>
-                                    <syncfusion:DataGridStyle HeaderRowBackground="#1C1B1B" HeaderRowTextColor="#74A173" RowTextColor="#E5E2E1" RowFontSize="14" HeaderRowFontSize="12" HeaderRowFontAttributes="Bold"/>
-                                </syncfusion:SfDataGrid.DefaultStyle>
+                    <syncfusion:DataGridTemplateColumn HeaderText="ENTREGA" Width="100" HeaderTextAlignment="Center">
+                        <syncfusion:DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Text="{Binding order.eatlocation}" LineBreakMode="WordWrap" HorizontalOptions="Center" TextColor="#E5E2E1" FontFamily="ZalandoSans" VerticalOptions="Center" FontSize="12"/>
+                            </DataTemplate>
+                        </syncfusion:DataGridTemplateColumn.CellTemplate>
+                    </syncfusion:DataGridTemplateColumn>
 
-                                <syncfusion:SfDataGrid.Columns>
-                                    <syncfusion:DataGridTemplateColumn HeaderText="ITEM" HeaderTextAlignment="Start">
-                                        <syncfusion:DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Grid ColumnDefinitions="Auto, *" Padding="5,0,0,0" ColumnSpacing="10" VerticalOptions="Center">
-                                                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Fill" Padding="0,5" Spacing="2">
-                                                        <Label Text="{Binding name}" LineBreakMode="WordWrap" MaxLines="5" HorizontalOptions="Fill" FontFamily="ZalandoSans" FontAttributes="Bold" TextColor="#E5E2E1" FontSize="15"/>
-                                                        <Label Text="{Binding comments}" LineBreakMode="WordWrap" TextColor="#74A173" FontSize="11" FontFamily="ZalandoSans" IsVisible="{Binding comments, Converter={StaticResource StringToBoolConverter}}"/>
-                                                    </VerticalStackLayout>
-                                                </Grid>
-                                            </DataTemplate>
-                                        </syncfusion:DataGridTemplateColumn.CellTemplate>
-                                    </syncfusion:DataGridTemplateColumn>
+                    <syncfusion:DataGridTemplateColumn HeaderText="$" Width="100" HeaderTextAlignment="Center">
+                        <syncfusion:DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label Text="{Binding order.totalprice, StringFormat='{0:C2}'}" LineBreakMode="WordWrap" HorizontalOptions="Center" TextColor="#E5E2E1" FontFamily="ZalandoSans" VerticalOptions="Center" FontSize="12"/>
+                            </DataTemplate>
+                        </syncfusion:DataGridTemplateColumn.CellTemplate>
+                    </syncfusion:DataGridTemplateColumn>
 
-                                    <syncfusion:DataGridTemplateColumn HeaderText="#" HeaderTextAlignment="Center">
-                                        <syncfusion:DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="12">
-                                                    <Label Text="{Binding quantity}" TextColor="#E5E2E1" FontFamily="ZalandoSans" VerticalOptions="Center" FontSize="16"/>
-                                                </HorizontalStackLayout>
-                                            </DataTemplate>
-                                        </syncfusion:DataGridTemplateColumn.CellTemplate>
-                                    </syncfusion:DataGridTemplateColumn>
-                                </syncfusion:SfDataGrid.Columns>
-                            </syncfusion:SfDataGrid>
-
-                            <!-- Location and price -->
-                            <Grid ColumnDefinitions="*, Auto">
-                                <VerticalStackLayout>
-                                    <Label Text="{Binding order.eatlocation}" TextColor="#E5E2E1" FontFamily="ZalandoSans" Opacity="0.8" FontSize="18"/>
-                                    <Label Text="{Binding order.totalprice, StringFormat='Total: {0:C2}'}" FontFamily="ZalandoSans" TextColor="#E5E2E1" Opacity="0.8" FontSize="15"/>
-                                </VerticalStackLayout>
-                            </Grid>
-
-                            <!-- Button to cancel the order -->
-                            <Button x:Name="btnCancel" Text="CANCELAR" IsVisible="{Binding IsNotCancelled}" BackgroundColor="#74A173" FontFamily="ZalandoSans" FontAttributes="Bold" TextColor="#131313" CornerRadius="28" Clicked="btnCancel_Clicked"/>
-                        </VerticalStackLayout>
-                    </Border>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                    <syncfusion:DataGridTemplateColumn Width="50">
+                        <syncfusion:DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image x:Name="imgLink" Source="link.png" BackgroundColor="Transparent" WidthRequest="20" HeightRequest="20">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="imgLink_Clicked"></TapGestureRecognizer>
+                                    </Image.GestureRecognizers>
+                                </Image>
+                            </DataTemplate>
+                        </syncfusion:DataGridTemplateColumn.CellTemplate>
+                    </syncfusion:DataGridTemplateColumn>
+                </syncfusion:SfDataGrid.Columns>
+            </syncfusion:SfDataGrid>
+        </Border>
     </Grid>
 </ContentPage>
